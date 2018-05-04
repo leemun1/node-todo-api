@@ -44,7 +44,7 @@ app.get('/todos/:id', (req, res) => {
     }
     res.send({todo});
   }).catch((err) => {
-    res.status(400).send();
+    res.status(400).send(err);
   });
 });
 
@@ -60,7 +60,7 @@ app.delete('/todos/:id', (req, res) => {
     }
     res.send({todo});
   }).catch((err) => {
-    res.status(400).send();
+    res.status(400).send(err);
   });
 });
 
@@ -85,9 +85,19 @@ app.patch('/todos/:id', (req, res) => {
     }
     res.send({todo});
   }).catch((err) => {
-    res.status(400).send();
-  })
+    res.status(400).send(err);
+  });
+});
 
+app.post('/users', (req, res) => {
+  let body = _.pick(req.body, ['email', 'password']);
+  let user = new User(body);
+
+  user.save().then((user) => {
+    res.send({user});
+  }).catch((err) => {
+    res.status(400).send(err);
+  });
 });
 
 app.listen(port, () => {
