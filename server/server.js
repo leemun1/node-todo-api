@@ -1,3 +1,5 @@
+require('./config/config');
+
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -95,7 +97,7 @@ app.patch('/todos/:id', authenticate, (req, res) => {
     _id: id,
     _creator: req.user._id
   }
-  
+
   Todo.findOneAndUpdate(query, {$set: body}, {new: true}).then((todo) => {
     if (!todo) {
       return res.status(404).send();
